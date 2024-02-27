@@ -15,3 +15,8 @@ th, td {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+
+.display-card {
+    max-width: 400px;
+    margin-top: 10px;
+}
