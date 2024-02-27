@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { DisplayService } from '../httpServices/display-service';
+import { useContext, useEffect, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -8,13 +7,15 @@ import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
+import { DisplayServiceContext } from './display-service-provider';
 
 export default function DisplayTilesComponent() {
+    const displayService = useContext(DisplayServiceContext)
     const [displays, setDisplays] = useState();
 
     useEffect(() => {
         populateDisplays();
-    }, []);
+    });
 
     const contents = displays ?    
         <Box sx={{ flexGrow: 1 }}>
@@ -48,7 +49,6 @@ export default function DisplayTilesComponent() {
     );
 
     async function populateDisplays() {
-        const displayService = new DisplayService();
         const data = await displayService.get_async();
         console.log('data');
         console.log(data);
