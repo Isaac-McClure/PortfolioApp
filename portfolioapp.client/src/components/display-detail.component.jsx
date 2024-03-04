@@ -1,21 +1,39 @@
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import Box from '@mui/material/Box';
-import { DisplayService } from '../httpServices/display-service';
+import { useParams } from "react-router-dom";
+import { DisplayServiceContext } from "./display-service-provider";
+import CircularProgress from '@mui/material/CircularProgress';
 
-export default function DisplayDetail() {
+export default function DisplayDetailComponent() {
+    const displayService = useContext(DisplayServiceContext)
+    const { id } = useParams();
     const [display, setDisplay] = useState();
 
-    useEffect(() => {
-        getDisplay();
-    }, []);
+    const getDisplay = useCallback(async (displayId) => {
+        var display = await displayService.getByIdAsync(displayId);
+        console.log('display');
+        console.log(display);
 
-    const contents = display ? <p>display here</p>
+        setDisplay(display);
+    }, [displayService]);
+
+    useEffect(() => {
+        getDisplay(id);
+    }, [getDisplay, id]);
+
+    const contents = display ? 
+        <div>
+            <h2>{display.name}</h2>
+            <div className='detail-box'>
+                <div className='detail-image'>{display.imageUrl}</div>
+                <div>{display.detailDescription}</div>
+            </div>        
+        </div>
         :
         <Box sx={{ display: 'flex' }}>
             <CircularProgress />
         </Box>;
 
-    async function getDisplay() {
-        var display = disp
-    }
+    return contents;
+
 }

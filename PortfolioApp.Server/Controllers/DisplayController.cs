@@ -19,7 +19,8 @@ namespace PortfolioApp.Server.Controllers
             _repository = repository;
         }
 
-        [HttpGet("getDisplayById/{id}")]
+        [HttpGet]
+        [Route("GetById/{id}")]
         public ActionResult<Display> GetById(int id) 
         {
             try
@@ -30,22 +31,16 @@ namespace PortfolioApp.Server.Controllers
             }
             catch (ArgumentException ex) 
             {
+                _logger.LogError(LogEventId.DisplayControllerError, ex, "Argument exception in DisplayController GetById");
                 return NotFound();
             }
         }
 
         [HttpGet]
-        [Route("getAll")]
+        [Route("GetAll")]
         public ActionResult<IEnumerable<Display>> GetAll()
         {
-            var displays = Enumerable.Range(1, 5).Select(index => new Display
-            {
-                Name = index.ToString(),
-                Description = "test",
-                DetailDescription = "test but much longer",
-                ImageUrl = HttpContext.Request.GetDisplayUrl()
-            })
-            .ToArray();
+            var displays = _repository.GetAll();
 
             return Ok(displays);
         }

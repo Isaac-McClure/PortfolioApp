@@ -9,6 +9,7 @@ namespace PortfolioApp.Server.Repositories
 
             var displays = Enumerable.Range(1, 5).Select(index => new Display
             {
+                Id = index,
                 Name = index.ToString(),
                 Description = "test",
                 DetailDescription = "test but much longer",
