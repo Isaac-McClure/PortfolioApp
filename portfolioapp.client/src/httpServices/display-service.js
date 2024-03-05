@@ -3,10 +3,14 @@ export class DisplayService {
         this.baseUrl = 'https://localhost:7197/Display'
     }
 
-    async get_async() {
-        const response = await fetch(this.baseUrl);
-        console.log('response');
-        console.log(response);
+    async getByIdAsync(id) {
+        const response = await fetch(this.baseUrl + '/GetById/' + id);
+
+        return await response.json();
+    }
+
+    async getAllAsync() {
+        const response = await fetch(this.baseUrl + '/GetAll');
 
         return await response.json();
     }

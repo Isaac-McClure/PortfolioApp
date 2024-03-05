@@ -1,20 +1,33 @@
 import './App.css';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBarComponent from './components/app-bar.component.jsx';
 import DisplayTilesComponent from './components/display-tiles.component';
+import NoMatch from './components/no-match.component';
+import DisplayDetailComponent from './components/display-detail.component';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LayoutComponent from './components/layout.component.jsx';
 
+const router = createBrowserRouter([
+    {
+        Component: LayoutComponent,
+        children: [
+            {
+                path: '/',
+                Component: DisplayTilesComponent
+            },
+            {
+                path: '/appdisplay/:id',
+                element: <DisplayDetailComponent></DisplayDetailComponent>
+            },
+            {
+                path: '*',
+                Component: NoMatch
+            },
+        ]
+    },
+]);
 function App() {
 
-    const contents =
-        <div>
-            <CssBaseline />
-            <AppBarComponent></AppBarComponent>
-            <DisplayTilesComponent></DisplayTilesComponent>
-            <hr></hr>
-        </div>            ;
-
     return (
-        contents
+        <RouterProvider router={router} />
     );
 }
 

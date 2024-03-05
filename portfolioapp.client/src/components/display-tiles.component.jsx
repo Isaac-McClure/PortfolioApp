@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { DisplayService } from '../httpServices/display-service';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -8,17 +7,25 @@ import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
+import { DisplayServiceContext } from './display-service-provider';
+import { Link } from 'react-router-dom';
 
 export default function DisplayTilesComponent() {
+    const displayService = useContext(DisplayServiceContext)
     const [displays, setDisplays] = useState();
+
+    const populateDisplays = useCallback(async () => {
+        const data = await displayService.getAllAsync();
+        setDisplays(data);
+    }, [displayService]);
 
     useEffect(() => {
         populateDisplays();
-    }, []);
+    }, [populateDisplays]);
 
     const contents = displays ?    
         <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} className="grid">
                 {displays.map(display =>
                     <Grid xs={12} s={6} md={4} l={3} key={display.name} display="flex" justifyContent="center" alignItems="center">
                         <Card className='display-card' sx={{ minWidth: 275 }}>
@@ -31,7 +38,9 @@ export default function DisplayTilesComponent() {
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <Button size="small">Learn More</Button>
+                                <Link to={'/appdisplay/' + display.id}>
+                                    <Button size="small">Learn More</Button>
+                                </Link>
                             </CardActions>
                         </Card>
                     </Grid>
@@ -46,12 +55,4 @@ export default function DisplayTilesComponent() {
     return (
         contents
     );
-
-    async function populateDisplays() {
-        const displayService = new DisplayService();
-        const data = await displayService.get_async();
-        console.log('data');
-        console.log(data);
-        setDisplays(data);
-    }
 }
