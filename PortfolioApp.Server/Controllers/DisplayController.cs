@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioApp.Server.Models;
 using PortfolioApp.Server.Repositories.Interfaces;

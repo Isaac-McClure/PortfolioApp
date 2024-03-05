@@ -11,6 +11,5 @@
         public string? CodeFilePath { get; set; }
         public bool HasDownloadableExecutable { get; set; }
         public string? ExecutableFilePath { get; set; }
-
     }
 }
