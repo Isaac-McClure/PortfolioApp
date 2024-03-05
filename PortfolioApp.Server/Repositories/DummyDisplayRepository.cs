@@ -13,7 +13,7 @@ namespace PortfolioApp.Server.Repositories
                 Name = index.ToString(),
                 Description = "test",
                 DetailDescription = "test but much longer",
-                ImageUrl = "NotARealUrl"
+                ImageUrl = "testImage"
             })
             .ToList();
 

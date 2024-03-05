@@ -8,6 +8,7 @@ export default function DisplayDetailComponent() {
     const displayService = useContext(DisplayServiceContext)
     const { id } = useParams();
     const [display, setDisplay] = useState();
+    const [imageUrl, setImageUrl] = useState('test');
 
     const getDisplay = useCallback(async (displayId) => {
         var display = await displayService.getByIdAsync(displayId);
@@ -21,11 +22,20 @@ export default function DisplayDetailComponent() {
         getDisplay(id);
     }, [getDisplay, id]);
 
+    useEffect(() => getImageUrl(display), [display])
+
+    const getImageUrl = (display) => {
+        if (display) {
+            const url = new URL(`../assets/displays/${display.imageUrl}.png`, import.meta.url).href
+            setImageUrl(url);
+        }
+    }
+
     const contents = display ? 
         <div>
             <h2>{display.name}</h2>
             <div className='detail-box'>
-                <div className='detail-image'>{display.imageUrl}</div>
+                <img className='detail-image' src={ imageUrl } alt="A screenshot of the project" />
                 <div>{display.detailDescription}</div>
             </div>        
         </div>
