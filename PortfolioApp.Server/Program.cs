@@ -11,7 +11,7 @@ builder.Services.AddScoped<IDisplayRepository, DummyDisplayRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", policy => {
-    policy.WithOrigins("https://localhost:5173").AllowAnyMethod().AllowAnyHeader();
+    policy.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader();
     }));
 
 var app = builder.Build();
