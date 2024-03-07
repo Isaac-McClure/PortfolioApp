@@ -26,8 +26,9 @@ export default function DisplayDetailComponent() {
 
     const getImageUrl = (display) => {
         if (display) {
-            const url = new URL(`../assets/displays/${display.imageUrl}.png`, import.meta.url).href
-            setImageUrl(url);
+            // const url = new URL(`../assets/displays/${display.imageUrl}.png`, import.meta.url).href
+
+            setImageUrl('assets/displays/' + display.imageUrl + '.png');
         }
     }
 

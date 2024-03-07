@@ -20,6 +20,6 @@ export default defineConfig({
         port: 5173,
         strictPort: true,
         host: true,
-        origin: "http://0.0.0.0:5173",
+        origin: "http://portfolioapp-client:5173",
     }
 })

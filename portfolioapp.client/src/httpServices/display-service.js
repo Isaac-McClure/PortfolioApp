@@ -1,6 +1,6 @@
 export class DisplayService {
     constructor() {
-        this.baseUrl = 'http://localhost:8080/Display'
+        this.baseUrl = 'http://portfolioapp-server:8080/Display'
     }
 
     async getByIdAsync(id) {

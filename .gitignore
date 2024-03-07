@@ -361,3 +361,11 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+#database init
+mongo-init.js
+
+# docker secrets files
+db_password.txt
+
+.env
