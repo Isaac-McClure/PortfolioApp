@@ -1,37 +1,38 @@
-using PortfolioApp.Server.Models;
+using MongoDB.Driver;
+using PortfolioApp.Server.DbModels;
 using PortfolioApp.Server.Repositories.Interfaces;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using PortfolioApp.Server.Models;
 
 namespace PortfolioApp.Server.Repositories
 {
 	public class DisplayRepository : IDisplayRepository
-	{
-		private static List<Display> GetDummyData()
-		{
+    {
 
-			var displays = Enumerable.Range(1, 5).Select(index => new Display
-			{
-				Id = index,
-				Name = index.ToString(),
-				Description = "test",
-				DetailDescription = "test but much longer",
-				ImageUrl = "testImage"
-			})
-			.ToList();
+        private readonly IMongoCollection<Display> _displayCollection;
+
+		public DisplayRepository(DatabaseSettings databaseSettings) 
+		{
+			var mongoClient = new MongoClient(databaseSettings.ConnectionString);
+
+			var mongoDatabase = mongoClient.GetDatabase(databaseSettings.DatabaseName);
+
+			_displayCollection = mongoDatabase.GetCollection<Display>(databaseSettings.DisplayCollectionName);
+		}
+
+		public async Task<IEnumerable<Display>> GetAllAsync()
+		{
+			var displays = await _displayCollection.Find(_ => true).ToListAsync();
 
 			return displays;
 		}
 
-		public IEnumerable<Display> GetAll()
+		public async Task<Display> GetByIdAsync(string id)
 		{
-			return GetDummyData();
-		}
+			var display = await _displayCollection.Find(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
-		public Display GetById(int id)
-		{
-			List<Display> dummyData = GetDummyData();
-			var display = dummyData.FirstOrDefault(display => display.Id == id);
-
-			if (display == null)
+            if (display == null)
 			{
 				throw new ArgumentException("No display found for that Id");
 			}

@@ -2,10 +2,10 @@ namespace PortfolioApp.Server.Models
 {
     public class DatabaseSettings
     {
-        public string ConnectionString { get; set; } = null!;
+        public string ConnectionString { get; set; } = "mongodb://portfolioapp-database:27017";
 
-        public string DatabaseName { get; set; } = null!;
+        public string DatabaseName { get; set; } = Environment.GetEnvironmentVariable("DATABASE_NAME");
 
-        public string BooksCollectionName { get; set; } = null!;
+        public string DisplayCollectionName { get; set; } = "displays";
     }
 }

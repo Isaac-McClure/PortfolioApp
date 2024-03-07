@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PortfolioApp.Server.DbModels;
 using PortfolioApp.Server.Models;
 using PortfolioApp.Server.Repositories.Interfaces;
 

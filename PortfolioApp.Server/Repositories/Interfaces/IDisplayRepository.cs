@@ -1,4 +1,4 @@
-﻿using PortfolioApp.Server.Models;
+﻿using PortfolioApp.Server.DbModels;
 
 namespace PortfolioApp.Server.Repositories.Interfaces
 {
