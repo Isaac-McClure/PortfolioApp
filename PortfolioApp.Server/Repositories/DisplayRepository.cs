@@ -1,8 +1,6 @@
 using MongoDB.Driver;
 using PortfolioApp.Server.DbModels;
 using PortfolioApp.Server.Repositories.Interfaces;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 using PortfolioApp.Server.Models;
 
 namespace PortfolioApp.Server.Repositories
@@ -30,7 +28,9 @@ namespace PortfolioApp.Server.Repositories
 
 		public async Task<Display> GetByIdAsync(string id)
 		{
-			var display = await _displayCollection.Find(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+            // TODO: Make id a valid monbo bson id objectId thing see https://stackoverflow.com/questions/27019513/system-formatexception-occurred-in-mongodb-bson-dll-xxx-is-not-a-valid-24-dig
+
+            var display = await _displayCollection.Find(x => x._id.Equals(id)).FirstOrDefaultAsync();
 
             if (display == null)
 			{

@@ -31,6 +31,8 @@ services:
     environment:
       DOTNET_ENVIRONMENT: ${ENVIRONMENT}
       DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - 8080:8080
     develop:
@@ -43,19 +45,13 @@ services:
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USER}
-      MONGO_INITDB_ROOT_PASSWORD: /run/secrets/db_password
+      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
       MONGO_INITDB_DATABASE: ${DATABASE_NAME}
     volumes: 
       - database:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     ports:
       - 27017:27017
-    secrets:
-      - db_password
-
-secrets:
-  db_password: 
-    file: db_password.txt
 
 
 volumes:

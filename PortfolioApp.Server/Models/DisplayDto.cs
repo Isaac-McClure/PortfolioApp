@@ -1,13 +1,8 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-
-namespace PortfolioApp.Server.DbModels
+﻿namespace PortfolioApp.Server.Models
 {
-    public class Display
+    public class DisplayDto
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public required string _id { get; set; }
+        public required string Id { get; set; }
         public required string Name { get; set; }
         public required string Description { get; set; }
         public required string DetailDescription { get; set; }
