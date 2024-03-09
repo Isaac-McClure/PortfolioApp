@@ -2,7 +2,7 @@
 {
     public interface IRepository<T> where T : class
     {
-        T GetById(int id);
-        IEnumerable<T> GetAll();
+        Task<T> GetByIdAsync(string id);
+        Task<IEnumerable<T>> GetAllAsync();
     }
 }

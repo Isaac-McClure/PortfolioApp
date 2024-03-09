@@ -1,4 +1,6 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using PortfolioApp.Server.DbModels;
 using PortfolioApp.Server.Models;
 using PortfolioApp.Server.Repositories.Interfaces;
 
@@ -10,23 +12,27 @@ namespace PortfolioApp.Server.Controllers
     public class DisplayController : ControllerBase
     {
         private readonly ILogger<DisplayController> _logger;
+        private readonly IMapper _mapper;
         private readonly IDisplayRepository _repository;
 
-        public DisplayController(ILogger<DisplayController> logger, IDisplayRepository repository)
+        public DisplayController(ILogger<DisplayController> logger, IMapper mapper, IDisplayRepository repository)
         {
             _logger = logger;
+            _mapper = mapper;
             _repository = repository;
         }
 
         [HttpGet]
         [Route("GetById/{id}")]
-        public ActionResult<Display> GetById(int id) 
+        public async Task<ActionResult<DisplayDto>> GetById(string id) 
         {
             try
             {
-                var display = _repository.GetById(id);
+                var display = await _repository.GetByIdAsync(id);
 
-                return Ok(display);
+                var displayDto = _mapper.Map<DisplayDto>(display);
+
+                return Ok(displayDto);
             }
             catch (ArgumentException ex) 
             {
@@ -37,11 +43,20 @@ namespace PortfolioApp.Server.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public ActionResult<IEnumerable<Display>> GetAll()
+        public async Task<ActionResult<IEnumerable<DisplayDto>>> GetAll()
         {
-            var displays = _repository.GetAll();
+            try
+            {
+                var displays = await _repository.GetAllAsync();
 
-            return Ok(displays);
+                var displayDtos = _mapper.Map<List<DisplayDto>>(displays);
+
+                return Ok(displayDtos);
+            }
+            catch (Exception ex) {
+                _logger.LogError(LogEventId.DisplayControllerError, ex, "Exception in DisplayController GetAll");
+                return StatusCode(500);
+            }
         }
     }
 }

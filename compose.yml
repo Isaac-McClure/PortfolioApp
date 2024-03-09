@@ -1,0 +1,58 @@
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker compose reference guide at
+# https://docs.docker.com/compose/compose-file/
+
+
+services:
+  portfolioapp-client:
+    container_name: client
+    build:
+      context: ./portfolioapp.client
+    depends_on:
+      - portfolioapp-database
+    environment:
+      NODE_ENV: ${ENVIRONMENT}
+    ports:
+      - 5173:5173
+    develop:
+      watch:
+        - path: ./portfolioapp.client/package.json
+          action: rebuild
+        - path: ./portfolioapp.client/src
+          target: /app/src
+          action: sync
+
+  portfolioapp-server:
+    container_name: server
+    build:
+      context: ./PortfolioApp.server
+    depends_on:
+      - portfolioapp-database
+    environment:
+      DOTNET_ENVIRONMENT: ${ENVIRONMENT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - 8080:8080
+    develop:
+      watch:
+        - path: ./PortfolioApp.Server
+          action: rebuild
+
+  portfolioapp-database:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DATABASE_NAME}
+    volumes: 
+      - database:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - 27017:27017
+
+
+volumes:
+  database:
