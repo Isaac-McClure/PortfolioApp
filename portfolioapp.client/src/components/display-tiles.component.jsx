@@ -7,11 +7,12 @@ import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
-import { DisplayServiceContext } from './display-service-provider';
+import { AppContext } from './app-context-provider';
 import { Link } from 'react-router-dom';
 
 export default function DisplayTilesComponent() {
-    const displayService = useContext(DisplayServiceContext)
+    const appContext = useContext(AppContext);
+    const displayService = appContext.displayService;
     const [displays, setDisplays] = useState();
 
     const populateDisplays = useCallback(async () => {
