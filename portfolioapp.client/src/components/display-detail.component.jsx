@@ -38,6 +38,7 @@ export default function DisplayDetailComponent() {
             <div className='detail-box'>
                 <img className='detail-image' src={ imageUrl } alt="A screenshot of the project" />
                 <div>{display.detailDescription}</div>
+                (display.gitHubLink ? <div>To see the source code and more details, visit {display.gitHubLink}</div> : <div></div>)
             </div>        
         </div>
         :
