@@ -8,9 +8,11 @@ namespace PortfolioApp.Server.Mapper
     {
         public DisplayProfile() 
         {
-            CreateMap<Display, DisplayDto>()
+            CreateMap<Display, DisplayGetDto>()
                 .ForMember(dest => dest.Id,
                 opt => opt.MapFrom(src => src._id));
+
+            CreateMap<DisplayCreateDto, Display>();
         }
     }
 }

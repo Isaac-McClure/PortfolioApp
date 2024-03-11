@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using PortfolioApp.Server.Mapper;
 using PortfolioApp.Server.Models;
 using PortfolioApp.Server.Repositories;
@@ -11,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<IDisplayRepository, DisplayRepository>();
 builder.Services.AddScoped<DatabaseSettings, DatabaseSettings>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserTokenRepository, UserTokenRepository>();
 builder.Services.AddAutoMapper(typeof(DisplayProfile));
 
 // Add logging with Serilog
@@ -23,6 +28,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", policy => {
     policy.WithOrigins("https://localhost:5173").AllowAnyMethod().AllowAnyHeader();
     }));
+
+// Add auth
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options => {
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        options.SlidingExpiration = true;
+        options.Cookie.HttpOnly = true;
+    });
 
 var app = builder.Build();
 
@@ -41,7 +54,12 @@ if (app.Environment.IsDevelopment())
 app.UseHsts();
 
 app.UseCors("ApiCorsPolicy"); // UseCors must be called before UseAuthorization
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+});
 
 app.MapControllers();
 

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioApp.Server.DbModels;
 using PortfolioApp.Server.Models;
@@ -24,13 +25,13 @@ namespace PortfolioApp.Server.Controllers
 
         [HttpGet]
         [Route("GetById/{id}")]
-        public async Task<ActionResult<DisplayDto>> GetById(string id) 
+        public async Task<ActionResult<DisplayGetDto>> GetById(string id) 
         {
             try
             {
                 var display = await _repository.GetByIdAsync(id);
 
-                var displayDto = _mapper.Map<DisplayDto>(display);
+                var displayDto = _mapper.Map<DisplayGetDto>(display);
 
                 return Ok(displayDto);
             }
@@ -43,18 +44,62 @@ namespace PortfolioApp.Server.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public async Task<ActionResult<IEnumerable<DisplayDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<DisplayGetDto>>> GetAll()
         {
             try
             {
                 var displays = await _repository.GetAllAsync();
 
-                var displayDtos = _mapper.Map<List<DisplayDto>>(displays);
+                var displayDtos = _mapper.Map<List<DisplayGetDto>>(displays);
 
                 return Ok(displayDtos);
             }
             catch (Exception ex) {
                 _logger.LogError(LogEventId.DisplayControllerError, ex, "Exception in DisplayController GetAll");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [Route("Create")]
+        [Authorize]
+        public async Task<ActionResult<DisplayGetDto>> Create(DisplayCreateDto displayToCreate)
+        {
+            try
+            {
+                var dbDisplayToCreate = _mapper.Map<Display>(displayToCreate);
+
+                var newDisplay = await _repository.CreateAsync(dbDisplayToCreate);
+
+                var displayDto = _mapper.Map<DisplayGetDto>(newDisplay);
+
+                return Ok(displayDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LogEventId.DisplayControllerError, ex, "Exception in DisplayController Create");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [Route("Update")]
+        [Authorize]
+        public async Task<ActionResult<DisplayGetDto>> Update(DisplayUpdateDto displayToUpdate)
+        {
+            try
+            {
+                var dbDisplayToUpdate = _mapper.Map<Display>(displayToUpdate);
+
+                var newDisplay = await _repository.UpdateAsync(dbDisplayToUpdate);
+
+                var displayDto = _mapper.Map<DisplayGetDto>(newDisplay);
+
+                return Ok(displayDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LogEventId.DisplayControllerError, ex, "Exception in DisplayController Update");
                 return StatusCode(500);
             }
         }

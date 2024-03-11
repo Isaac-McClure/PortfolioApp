@@ -3,6 +3,7 @@ using PortfolioApp.Server.DbModels;
 using PortfolioApp.Server.Repositories.Interfaces;
 using PortfolioApp.Server.Models;
 using MongoDB.Bson;
+using static MongoDB.Driver.WriteConcern;
 
 namespace PortfolioApp.Server.Repositories
 {
@@ -20,7 +21,13 @@ namespace PortfolioApp.Server.Repositories
 			_displayCollection = mongoDatabase.GetCollection<Display>(databaseSettings.DisplayCollectionName);
 		}
 
-		public async Task<IEnumerable<Display>> GetAllAsync()
+        public async Task<Display> CreateAsync(Display entity)
+        {
+			await _displayCollection.InsertOneAsync(entity);
+			return entity;
+        }
+
+        public async Task<IEnumerable<Display>> GetAllAsync()
 		{
 			var displays = await _displayCollection.Find(_ => true).ToListAsync();
 
@@ -44,5 +51,18 @@ namespace PortfolioApp.Server.Repositories
 
 			return display;
 		}
-	}
+
+        public async Task<Display> UpdateAsync(Display entity)
+        {
+			var filter = Builders<Display>.Filter.Eq(x => x._id, entity._id);
+
+            var result = await _displayCollection.ReplaceOneAsync(filter, entity);
+
+			if (!result.IsAcknowledged) {
+				throw new Exception($"Updating Display with Id {entity._id} failed");
+			}
+
+            return entity;
+        }
+    }
 }
