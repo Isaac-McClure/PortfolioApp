@@ -12,7 +12,6 @@ services:
       - portfolioapp-database
     environment:
       NODE_ENV: ${ENVIRONMENT}
-      API_PORT: ${API_PORT}
     ports:
       - 5173:5173
     develop:
@@ -37,12 +36,16 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERT_PASSWORD}
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
     ports:
-      - 8080:8080
+      - ${API_PORT}:${API_PORT}
     develop:
       watch:
         - path: ./PortfolioApp.Server
           action: rebuild
+    volumes:
+      - ~/.aspnet/https:/https:ro
 
   portfolioapp-database:
     image: mongo:latest

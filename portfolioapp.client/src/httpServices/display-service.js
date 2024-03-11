@@ -1,7 +1,7 @@
 export class DisplayService {
     constructor() {
         // todo: add url to env variables
-        this.baseUrl = 'http://localhost:8080/Display'
+        this.baseUrl = 'https://localhost:5001/Display'
     }
 
     async getByIdAsync(id) {
