@@ -15,8 +15,6 @@ export default function DisplayDetailComponent() {
 
     const getDisplay = useCallback(async (displayId) => {
         var display = await displayService.getByIdAsync(displayId);
-        console.log('display');
-        console.log(display);
 
         setDisplay(display);
     }, [displayService]);
@@ -25,25 +23,32 @@ export default function DisplayDetailComponent() {
         getDisplay(id);
     }, [getDisplay, id]);
 
-    useEffect(() => getImage(display), [getImage, display])
-
     const getImage = useCallback((display) => {
-        const displayImage = appContext.cloundinary.image(display.imageUrl);
+        if (!appContext.cloudinary || !display) { return }
+        const displayImage = appContext.cloudinary.image(display.imageUrl);
 
         // Resize to 250 x 250 pixels using the 'fill' crop mode.
         displayImage.resize(fill().width(250).height(250));
 
         setImage(displayImage);
-    }, [appContext.cloundinary]);
+    }, [appContext.cloudinary]);
+
+    useEffect(() => getImage(display), [getImage, display])
 
     const contents = display ? 
         <div>
             <h2>{display.name}</h2>
             <div className='detail-box'>
-                <AdvancedImage cldImg={image} alt="A screenshot of the project" />
-                <div>{display.detailDescription}</div>
-                (display.gitHubLink ? <div>To see the source code and more details, visit {display.gitHubLink}</div> : <div></div>)
-            </div>        
+                {image ? <AdvancedImage className='detail-image' cldImg={image} alt="A screenshot of the project" /> : <div className='detail-image'></div> }
+                <div>
+                    <div>
+                        {display.detailDescription}
+                    </div>
+                    <div className='mt-10'>
+                        {display.gitHubLink ? <div>To see the source code and more details, visit {display.gitHubLink}</div> : <div></div>}
+                    </div>
+                </div>
+            </div>
         </div>
         :
         <Box sx={{ display: 'flex' }}>
