@@ -21,7 +21,7 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", policy => {
-    policy.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader();
+    policy.WithOrigins("https://localhost:5173").AllowAnyMethod().AllowAnyHeader();
     }));
 
 var app = builder.Build();
@@ -38,7 +38,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseHsts();
 
 app.UseCors("ApiCorsPolicy"); // UseCors must be called before UseAuthorization
 app.UseAuthorization();
