@@ -1,6 +1,7 @@
 export class DisplayService {
     constructor() {
-        this.baseUrl = 'http://portfolioapp-server:8080/Display'
+        // todo: add url to env variables
+        this.baseUrl = 'http://localhost:8080/Display'
     }
 
     async getByIdAsync(id) {

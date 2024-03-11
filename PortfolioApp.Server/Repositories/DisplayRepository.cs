@@ -2,6 +2,7 @@ using MongoDB.Driver;
 using PortfolioApp.Server.DbModels;
 using PortfolioApp.Server.Repositories.Interfaces;
 using PortfolioApp.Server.Models;
+using MongoDB.Bson;
 
 namespace PortfolioApp.Server.Repositories
 {
@@ -28,9 +29,13 @@ namespace PortfolioApp.Server.Repositories
 
 		public async Task<Display> GetByIdAsync(string id)
 		{
-            // TODO: Make id a valid monbo bson id objectId thing see https://stackoverflow.com/questions/27019513/system-formatexception-occurred-in-mongodb-bson-dll-xxx-is-not-a-valid-24-dig
+			// Check if ID is valid objectId, and convert it to one.
+			bool isValid = ObjectId.TryParse(id, out ObjectId objectId);
+			if (!isValid) {
+				throw new ArgumentException($"Given ID \"{id}\" was not a valid Object Id");
+			}
 
-            var display = await _displayCollection.Find(x => x._id.Equals(id)).FirstOrDefaultAsync();
+            var display = await _displayCollection.Find(x => x._id.Equals(objectId.ToString())).FirstOrDefaultAsync();
 
             if (display == null)
 			{
