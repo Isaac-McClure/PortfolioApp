@@ -13,8 +13,6 @@ import { Link } from 'react-router-dom';
 
 export default function DisplayTilesComponent() {
     const appContext = useContext(AppContext);
-    console.log('appContext');
-    console.log(appContext);
 
     const displayService = appContext.displayService;
     const [displays, setDisplays] = useState();

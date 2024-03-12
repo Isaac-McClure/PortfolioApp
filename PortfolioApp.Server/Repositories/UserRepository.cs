@@ -14,11 +14,6 @@ namespace PortfolioApp.Server.Repositories
         {
             var display = await _collection.Find(x => x.Username.Equals(username)).FirstOrDefaultAsync();
 
-            if (display == null)
-            {
-                throw new ArgumentException("No user found for that username");
-            }
-
             return display;
         }
     }

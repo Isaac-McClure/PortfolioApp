@@ -9,6 +9,6 @@ namespace PortfolioApp.Server.DbModels
         [BsonRepresentation(BsonType.ObjectId)]
         public string? _id { get; set; }
         public required string Username { get; set; }
-        public required string Password { get; set; }
+        public string Password { get; set; }
     }
 }

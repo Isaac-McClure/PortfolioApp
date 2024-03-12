@@ -6,6 +6,7 @@ using PortfolioApp.Server.Repositories.Interfaces;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PortfolioApp.Server.Controllers
 {
@@ -16,6 +17,8 @@ namespace PortfolioApp.Server.Controllers
         private readonly ILogger<LoginController> _logger;
         IUserRepository _userRepository;
         IUserTokenRepository _userTokenRepository;
+
+        private static string ADMIN_ROLE = "Administrator";
 
         public LoginController(ILogger<LoginController> logger, IUserRepository userRepository, IUserTokenRepository userTokenRepository)
         {
@@ -62,7 +65,7 @@ namespace PortfolioApp.Server.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, "Administrator"),
+                new Claim(ClaimTypes.Role, ADMIN_ROLE),
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -107,11 +110,50 @@ namespace PortfolioApp.Server.Controllers
 
         [HttpPost]
         [Route("logout")]
-        public async Task logout()
+        public async Task Logout()
         {
             // Clear the existing external cookie
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        [HttpGet]
+        [Route("isAdmin")]
+        [Authorize(Roles = "Administrator")]
+        public ActionResult IsAdmin()
+        {
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<ActionResult> Register(RegisterDto registerDto) 
+        {
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest();
+            }
+            
+            // There can only be one user
+            var users = await _userRepository.GetAllAsync();
+            if (users.Any()) 
+            {
+                return BadRequest();
+            }
+
+            var newUser = new User()
+            {
+                Username = registerDto.Username
+            };
+
+            // plaintext passwords should not be stored.
+            var passwordHasher = new PasswordHasher<User>();
+            var hashedPassword = passwordHasher.HashPassword(newUser, registerDto.Password);
+            newUser.Password = hashedPassword;
+
+            await _userRepository.CreateAsync(newUser);
+
+            return Ok();
         }
     }
 }

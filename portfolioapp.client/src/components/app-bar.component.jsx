@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -6,8 +7,12 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Icon from '@mui/material/Icon';
 import { Link } from 'react-router-dom';
+import { AppContext } from "./app-context-provider";
+
 
 export default function AppBarComponent() {
+    const appContext = useContext(AppContext);
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -26,7 +31,7 @@ export default function AppBarComponent() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Isaac&apos;s Apps
                     </Typography>
-                    <Button color="inherit">Login</Button>  
+                    { appContext.isLoggedIn ? <Button color="inherit">Log out</Button> : '' }
                 </Toolbar>
             </AppBar>
         </Box>

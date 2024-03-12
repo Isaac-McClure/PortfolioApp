@@ -4,6 +4,7 @@ import NoMatch from './components/no-match.component';
 import DisplayDetailComponent from './components/display-detail.component';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LayoutComponent from './components/layout.component.jsx';
+import LoginRegisterComponent from './components/login-register.component';
 
 const router = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
             {
                 path: '/appdisplay/:id',
                 element: <DisplayDetailComponent></DisplayDetailComponent>
+            },
+            {
+                path: '/login',
+                element: <LoginRegisterComponent></LoginRegisterComponent>
             },
             {
                 path: '*',

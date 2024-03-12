@@ -22,5 +22,8 @@ export default defineConfig({
         strictPort: true,
         host: true,
         origin: "https://portfolioapp-client:5173",
+        hmr: {
+            host: "localhost",
+        },
     }
 })
