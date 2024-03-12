@@ -8,8 +8,8 @@ export default function LayoutComponent() {
     const contents =
         <div>
             <CssBaseline />
-            <AppBarComponent></AppBarComponent>
             <AppContextProvider>
+                <AppBarComponent></AppBarComponent>
                 <Outlet />
             </AppContextProvider>
             <></>

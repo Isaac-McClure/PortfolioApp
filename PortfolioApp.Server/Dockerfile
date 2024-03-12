@@ -1,3 +1,4 @@
+ARG API_PORT
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /App
 
@@ -12,6 +13,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /App
 COPY --from=build-env /App/out .
 
-EXPOSE 8080
+ARG API_PORT
+EXPOSE ${API_PORT}
 
 ENTRYPOINT ["dotnet", "PortfolioApp.Server.dll"]
