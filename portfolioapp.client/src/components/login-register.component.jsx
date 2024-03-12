@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { AppContext } from './app-context-provider';
 import { useNavigate } from "react-router-dom";
 import { ButtonGroup } from '../../node_modules/@mui/material/index';
+import { LOGGED_IN_COOKIE } from '../constants';
 
 
 export default function LoginRegisterComponent() {
@@ -56,6 +57,7 @@ export default function LoginRegisterComponent() {
 
         if (loginResponse.ok) {
             appContext.setIsLoggedIn(true);
+            sessionStorage.setItem(LOGGED_IN_COOKIE, 'true');
             navigate("/admin");
         } else {
             setTryAgain(true);
