@@ -7,6 +7,7 @@ export class LoginService {
     async login(loginData) {
         const response = await fetch(this.baseUrl + '/login', {
             method: "POST",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -28,7 +29,7 @@ export class LoginService {
     async isAdmin() {
         const response = await fetch(this.baseUrl + '/isAdmin', {
             method: "GET",
-            credentials: "same-origin"
+            credentials: "include"
         });
 
         if (await response.ok) {

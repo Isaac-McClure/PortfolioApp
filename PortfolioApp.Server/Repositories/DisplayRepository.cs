@@ -54,15 +54,33 @@ namespace PortfolioApp.Server.Repositories
 
         public async Task<Display> UpdateAsync(Display entity)
         {
-			var filter = Builders<Display>.Filter.Eq(x => x._id, entity._id);
-
-            var result = await _displayCollection.ReplaceOneAsync(filter, entity);
+            var result = await _displayCollection.ReplaceOneAsync(x => x._id.Equals(entity._id), entity);
 
 			if (!result.IsAcknowledged) {
 				throw new Exception($"Updating Display with Id {entity._id} failed");
 			}
 
             return entity;
+        }
+
+		public async Task DeleteAsync(string id)
+        {
+            // Check if ID is valid objectId, and convert it to one.
+            bool isValid = ObjectId.TryParse(id, out ObjectId objectId);
+            if (!isValid)
+            {
+                throw new ArgumentException($"Given ID \"{id}\" was not a valid Object Id");
+            }
+
+            var deleteResult = await _displayCollection.DeleteOneAsync(x => x._id.Equals(objectId.ToString()));
+
+            if (deleteResult.DeletedCount == 0)
+            {
+                throw new ArgumentException("No display found for that Id");
+            }
+
+            return;
+
         }
     }
 }

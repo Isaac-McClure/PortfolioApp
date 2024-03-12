@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import { AppContext } from './app-context-provider';
 import { useNavigate } from "react-router-dom";
-import { ButtonGroup } from '../../node_modules/@mui/material/index';
 import { LOGGED_IN_COOKIE } from '../constants';
 
 
@@ -119,9 +119,8 @@ export default function LoginRegisterComponent() {
                 :
                 <div></div>}
             <Box sx={{ margin: '10px' }}>
-                <ButtonGroup variant='contained' aria-label='login and register button group'></ButtonGroup>
-                <Button onClick={() => login()}>Login</Button>
-                <Button onClick={() => register()}>Register</Button>
+                <Button sx={{ marginRight: '10px' }} variant='contained' onClick={() => login()}>Login</Button>
+                <Button variant='contained' onClick={() => register()}>Register</Button>
             </Box>           
         </Box>;
 

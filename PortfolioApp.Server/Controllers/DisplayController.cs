@@ -62,7 +62,7 @@ namespace PortfolioApp.Server.Controllers
 
         [HttpPost]
         [Route("Create")]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<DisplayGetDto>> Create(DisplayCreateDto displayToCreate)
         {
             try
@@ -84,7 +84,7 @@ namespace PortfolioApp.Server.Controllers
 
         [HttpPost]
         [Route("Update")]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<DisplayGetDto>> Update(DisplayUpdateDto displayToUpdate)
         {
             try
@@ -100,6 +100,24 @@ namespace PortfolioApp.Server.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LogEventId.DisplayControllerError, ex, "Exception in DisplayController Update");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [Route("Delete")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> Delete(string displayId)
+        {
+            try
+            {
+                await _repository.DeleteAsync(displayId);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LogEventId.DisplayControllerError, ex, "Exception in DisplayController Delete");
                 return StatusCode(500);
             }
         }

@@ -13,6 +13,9 @@ namespace PortfolioApp.Server.Mapper
                 opt => opt.MapFrom(src => src._id));
 
             CreateMap<DisplayCreateDto, Display>();
+            CreateMap<DisplayUpdateDto, Display>()
+                .ForMember(dest => dest._id, 
+                opt => opt.MapFrom(src => src.Id));
         }
     }
 }
