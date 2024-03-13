@@ -13,5 +13,6 @@ namespace PortfolioApp.Server.DbModels
         public required string DetailDescription { get; set; }
         public required string ImageUrl { get; set; }
         public string? GitHubLink { get; set; }
+        public string? ProductionLink { get; set; }
     }
 }

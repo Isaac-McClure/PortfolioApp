@@ -42,6 +42,7 @@ export default function AppBarComponent() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Isaac&apos;s Apps
                     </Typography>
+                    {appContext.isLoggedIn ? <Button color="inherit" component={Link} to="admin" >Admin</Button> : ''}
                     {appContext.isLoggedIn ? <Button color="inherit" onClick={() => logout()}>Log out</Button> : '' }
                 </Toolbar>
             </AppBar>
