@@ -8,6 +8,7 @@ import LoginRegisterComponent from './components/login-register.component';
 import AdminComponent from './components/admin.component';
 import PrivateRouteComponent from './components/private-route.component';
 import EditCreateDisplayComponent from './components/edit-create-display.component';
+import ErrorComponent from './components/error.component';
 
 const router = createBrowserRouter([
     {
@@ -15,23 +16,28 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                Component: DisplayTilesComponent
+                Component: DisplayTilesComponent,
+                errorElement: <ErrorComponent></ErrorComponent>,
             },
             {
                 path: '/appdisplay/:id',
-                element: <DisplayDetailComponent></DisplayDetailComponent>
+                element: <DisplayDetailComponent></DisplayDetailComponent>,
+                errorElement: <ErrorComponent></ErrorComponent>,
             },
             {
                 path: '/login',
-                element: <LoginRegisterComponent></LoginRegisterComponent>
+                element: <LoginRegisterComponent></LoginRegisterComponent>,
+                errorElement: <ErrorComponent></ErrorComponent>,
             },
             {
                 path: '/admin',
-                element:<PrivateRouteComponent component={ AdminComponent }></PrivateRouteComponent> 
+                element: <PrivateRouteComponent component={AdminComponent}></PrivateRouteComponent>,
+                errorElement: <ErrorComponent></ErrorComponent>,
             },
             {
                 path: '/editcreatedisplay/:id',
-                element: <PrivateRouteComponent component={ EditCreateDisplayComponent }></PrivateRouteComponent> 
+                element: <PrivateRouteComponent component={EditCreateDisplayComponent}></PrivateRouteComponent>,
+                errorElement: <ErrorComponent></ErrorComponent>,
             }, 
             {
                 path: '*',
