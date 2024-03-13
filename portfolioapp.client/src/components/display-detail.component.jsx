@@ -28,7 +28,7 @@ export default function DisplayDetailComponent() {
         const displayImage = appContext.cloudinary.image(display.imageUrl);
 
         // Resize to 250 x 250 pixels using the 'fill' crop mode.
-        displayImage.resize(fill().width(250).height(250));
+        // displayImage.resize(fill().width(250).height(250));
 
         setImage(displayImage);
     }, [appContext.cloudinary]);

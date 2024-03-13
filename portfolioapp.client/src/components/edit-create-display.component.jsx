@@ -21,7 +21,7 @@ export default function EditCreateDisplayComponent() {
     
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
     const [updateSuccess, setUpdateSuccess] = useState(false);
-    const [updateOrCreateFail, setUpdateOrCreateFail] = useState(false);
+    const [operationFail, setOperationFail] = useState(false);
 
     const [error, setError] = useState();
 
@@ -44,8 +44,6 @@ export default function EditCreateDisplayComponent() {
             return;
         }
         var display = await displayService.getByIdAsync(displayId);
-        console.log('display');
-        console.log(display);
         setDisplay(display);
     }, [displayService]);
 
@@ -75,31 +73,43 @@ export default function EditCreateDisplayComponent() {
             let result = await displayService.update(display);
             if (result.ok) {
                 setUpdateSuccess(true);
-                setUpdateOrCreateFail(false);
+                setOperationFail(false);
             } else {
                 setUpdateSuccess(false);
-                setUpdateOrCreateFail(true);
+                setOperationFail(true);
             }
         }
         else {
             let result = await displayService.create(display);
             if (result.ok) {
-                setUpdateOrCreateFail(false);
+                setOperationFail(false);
                 navigate('/admin');
             } else {
-                setUpdateOrCreateFail(true);
+                setOperationFail(true);
             }
         }
     }
 
-    function deleteDisplay() {
+    function openDeleteConfirmDialog() {
         setConfirmDeleteOpen(true);
     }
 
-    function handleClose(shouldDelete) {
+    async function handleClose(shouldDelete) {
         setConfirmDeleteOpen(false);
-        // Implement delete
-        return shouldDelete;
+        
+        if (!shouldDelete) {
+            return;
+        }
+
+        let result = await displayService.delete(display.id);
+        if (result.ok) {
+            navigate('/admin');
+            return;
+        }
+        else {
+            setOperationFail(true);
+        }
+        
     }
 
     const contents = display ?
@@ -171,7 +181,7 @@ export default function EditCreateDisplayComponent() {
             />
             <Box>
                 <Button variant="contained" sx={{ marginRight:'5px' }} color="secondary" onClick={() => createOrUpdate()}>Submit</Button>
-                <Button variant="contained" color="error" onClick={() => deleteDisplay()}>Delete</Button>
+                { id != 0 ? <Button variant="contained" color="error" onClick={() => openDeleteConfirmDialog()}>Delete</Button> : '' }
             </Box>
 
 
@@ -184,10 +194,10 @@ export default function EditCreateDisplayComponent() {
                 :
                 <div></div>}
 
-            {updateOrCreateFail ?
+            {operationFail ?
                 <Box sx={{ margin: '5px' }}>
                     <Alert severity="error">
-                        Display failed to update or create.
+                        Operation failed.
                     </Alert>
                 </Box>
                 :
