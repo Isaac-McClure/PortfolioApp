@@ -17,6 +17,8 @@ export default function DisplayDetailComponent() {
         var display = await displayService.getByIdAsync(displayId);
 
         setDisplay(display);
+
+        throw new Error("test");
     }, [displayService]);
 
     useEffect(() => {
