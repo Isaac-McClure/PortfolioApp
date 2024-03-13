@@ -15,9 +15,7 @@ export default function DisplayDetailComponent() {
     const getDisplay = useCallback(async (displayId) => {
         var display = await displayService.getByIdAsync(displayId);
 
-        setDisplay(display);
-
-        throw new Error("test");
+        setDisplay(display);        
     }, [displayService]);
 
     useEffect(() => {
@@ -27,9 +25,6 @@ export default function DisplayDetailComponent() {
     const getImage = useCallback((display) => {
         if (!appContext.cloudinary || !display) { return }
         const displayImage = appContext.cloudinary.image(display.imageUrl);
-
-        // Resize to 250 x 250 pixels using the 'fill' crop mode.
-        // displayImage.resize(fill().width(250).height(250));
 
         setImage(displayImage);
     }, [appContext.cloudinary]);
