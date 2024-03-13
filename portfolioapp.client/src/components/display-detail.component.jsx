@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "./app-context-provider";
 import CircularProgress from '@mui/material/CircularProgress';
 import { AdvancedImage } from '@cloudinary/react';
-import { fill } from "@cloudinary/url-gen/actions/resize";
 
 export default function DisplayDetailComponent() {
     const appContext = useContext(AppContext);

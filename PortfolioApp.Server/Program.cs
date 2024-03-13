@@ -15,7 +15,6 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IDisplayRepository, DisplayRepository>();
 builder.Services.AddScoped<DatabaseSettings, DatabaseSettings>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserTokenRepository, UserTokenRepository>();
 builder.Services.AddAutoMapper(typeof(DisplayProfile));
 
 // Add logging with Serilog
