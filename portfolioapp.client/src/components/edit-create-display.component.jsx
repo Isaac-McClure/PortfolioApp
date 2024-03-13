@@ -25,7 +25,24 @@ export default function EditCreateDisplayComponent() {
 
     const [error, setError] = useState();
 
+    const getDefaultDisplay = () => {
+        return {
+            id: 0,
+            name: '',
+            description: '',
+            detailDescription: '',
+            gitHubLink: '',
+            imageUrl: '',
+            productionLink: '',
+
+        }
+    };
+
     const getDisplay = useCallback(async (displayId) => {
+        if (displayId == 0) {
+            setDisplay(getDefaultDisplay());
+            return;
+        }
         var display = await displayService.getByIdAsync(displayId);
         console.log('display');
         console.log(display);

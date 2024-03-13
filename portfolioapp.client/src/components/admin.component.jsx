@@ -58,7 +58,7 @@ export default function AdminComponent() {
                 </Table>
             </TableContainer>
             <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'row', marginTop: '10px'}}>
-                <Link sx={{ display: 'flex' }} to={'/editcreatedisplay/'}>
+                <Link sx={{ display: 'flex' }} to={'/editcreatedisplay/0'}>
                     <Button sx={{ display: 'flex' }}  variant='contained' size="small">Create new display</Button>
                 </Link>
             </Box>

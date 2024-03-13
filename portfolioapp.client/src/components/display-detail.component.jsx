@@ -40,12 +40,15 @@ export default function DisplayDetailComponent() {
             <h2>{display.name}</h2>
             <div className='detail-box'>
                 {image ? <AdvancedImage className='detail-image' cldImg={image} alt="A screenshot of the project" /> : <div className='detail-image'></div> }
-                <div>
+                <div className='detail-box-text'>
                     <div>
                         {display.detailDescription}
                     </div>
                     <div className='mt-10'>
                         {display.gitHubLink ? <div>To see the source code and more details, visit {display.gitHubLink}</div> : <div></div>}
+                    </div>
+                    <div className='mt-10'>
+                        {display.gitHubLink ? <div>To see the live app, visit {display.productionLink}</div> : <div></div>}
                     </div>
                 </div>
             </div>

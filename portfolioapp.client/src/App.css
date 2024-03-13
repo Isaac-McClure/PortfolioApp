@@ -26,17 +26,22 @@ th, td {
     max-width: 100%;
 }
 
-/* using <500 for mobile styles*/
-@media (min-width: 501px) {
+/* using <600 for mobile styles*/
+@media (min-width: 601px) {
     .detail-box {
         display: flex;
         flex-direction: row;
         margin-bottom: 10px;
-
+    }
+    .detail-box {
+        display: flex;
+        align-content: flex-start;
+        justify-content: flex-start;
+        text-align: left;
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     .detail-box {
         display: flex;
         flex-direction: column-reverse;
