@@ -30,7 +30,7 @@ export default function DisplayTilesComponent() {
             <Grid container spacing={2} className="grid">
                 {displays.map(display =>
                     <Grid xs={12} s={6} md={4} l={3} key={display.name} display="flex" justifyContent="center" alignItems="center">
-                        <Card className='display-card' sx={{ minWidth: 275 }}>
+                        <Card className='display-card' sx={{ width: '100%', height: 300 }}>
                             <CardMedia
                                 component="img"
                                 height="140"

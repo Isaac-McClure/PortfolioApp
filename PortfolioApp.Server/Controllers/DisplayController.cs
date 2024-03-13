@@ -107,11 +107,11 @@ namespace PortfolioApp.Server.Controllers
         [HttpPost]
         [Route("Delete")]
         [Authorize(Roles = "Administrator")]
-        public async Task<ActionResult> Delete(string displayId)
+        public async Task<ActionResult> Delete([FromBody] string id)
         {
             try
             {
-                await _repository.DeleteAsync(displayId);
+                await _repository.DeleteAsync(id);
 
                 return Ok();
             }

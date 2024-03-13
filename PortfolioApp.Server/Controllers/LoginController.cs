@@ -16,15 +16,13 @@ namespace PortfolioApp.Server.Controllers
     {
         private readonly ILogger<LoginController> _logger;
         IUserRepository _userRepository;
-        IUserTokenRepository _userTokenRepository;
 
         private static string ADMIN_ROLE = "Administrator";
 
-        public LoginController(ILogger<LoginController> logger, IUserRepository userRepository, IUserTokenRepository userTokenRepository)
+        public LoginController(ILogger<LoginController> logger, IUserRepository userRepository)
         {
             _logger = logger;
             _userRepository = userRepository;
-            _userTokenRepository = userTokenRepository;
         }
 
         [HttpPost]
@@ -47,19 +45,6 @@ namespace PortfolioApp.Server.Controllers
             {
                 return BadRequest();
             }
-            // May not need.
-            //// Create new token
-            //var newToken = new UserToken()
-            //{
-            //    UserId = user._id,
-            //    Token = Guid.NewGuid().ToString(),
-            //    ValidTill = DateTime.Now.AddHours(2)
-            //};
-            //
-            //// Store the token in the database 
-            //await _userTokenRepository.CreateAsync(newToken);
-            //
-            ////response.Headers.AddCookies(loginCookieBuilder.Build());
 
             // Set the user claims
             var claims = new List<Claim>
