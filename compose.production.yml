@@ -1,0 +1,8 @@
+
+services:
+  portfolioapp-client:
+    restart: always
+  portfolioapp-server:
+    restart: always
+  portfolioapp-database:
+    restart: always

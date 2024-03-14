@@ -1,0 +1,20 @@
+0. If they don't already exist, create aws resources with terraform. Confirm on aws it looks alright.
+
+1. Use docker compose with arguements to build for prod:
+
+$docker compose --env-file ./.env.production -f compose.yml -f compose.production.yml build --no-cache
+
+2. Push to the private docker hub repo that you are using (may require logging in first somehow)
+$docker compose push
+
+3. Connect to the EC2 instance with SSH
+
+4. Copy compose.yaml, compose.production.yaml, .env.production to the ec2 instance
+
+5. Pull the docker images with 
+$docker login or $docker login isaacmcclure/private
+$docker compose pull 
+
+6 Start all containers with 
+$docker compose --env-file ./.env.production -f compose.yml -f compose.production.yml build
+

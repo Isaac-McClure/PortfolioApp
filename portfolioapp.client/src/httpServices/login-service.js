@@ -1,7 +1,6 @@
 export class LoginService {
     constructor() {
-        // todo: add url to env variables
-        this.baseUrl = 'https://localhost:5001/Login'
+        this.baseUrl = import.meta.env.VITE_API_URL + '/Login'
     }
 
     async login(loginData) {

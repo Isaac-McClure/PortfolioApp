@@ -25,7 +25,7 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", policy => {
-    policy.WithOrigins("https://localhost:5173").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+    policy.WithOrigins("https://" + Environment.GetEnvironmentVariable("CORS_HOST") + ":5173").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
     }));
 
 // Add auth

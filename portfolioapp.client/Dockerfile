@@ -1,3 +1,4 @@
+ARG CLIENT_RUN_COMMAND
 FROM node:21-alpine
 
 WORKDIR /app
@@ -12,4 +13,6 @@ RUN npm run build
 
 EXPOSE 5173
 
-CMD [ "npm", "run", "dev" ]
+ARG CLIENT_RUN_COMMAND
+
+CMD npm run $CLIENT_RUN_COMMAND
