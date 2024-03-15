@@ -29,14 +29,9 @@ data "aws_subnets" "all" {
   }
 }
 
-data "aws_key_pair" "portfolioapp3" {
-  key_name           = "portfolioapp3"
-  include_public_key = true
-
-  filter {
-    name   = "tag:Component"
-    values = ["web"]
-  }
+resource "aws_key_pair" "portfolioapp4" {
+  key_name   = "portfolioapp4"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDUYo9l42nAd4QuQHBc8UA+HrjhJ4oah5X2Z6/7q50GdFKtSuHO+IXw/ud0GGseDxPIqsiUixdJQzeHf3pvxmcL8/F3gteQYNbSwdBq2Gd4xcvu9TwHOs0OF0PyrEFgpHJFad3N5v4qkmqwx84dhwSnjuKx/KSITBbnmCwzSg2XHGoAfJeHAFwmPmBIgHs8A6t9efrcKFw9hnEwlCOkeBNaHa4apGGasY3IS1nYBnXSFJY3AIRLhHAn7cMphElJNIhuRzIkS0xXU3MbMcanc/CTs0jCSKHGndfmIJA/taA6+Aq14+Aag762UI6V9DcBr3cTOv9eDx+SMSmCo76K8sRn82NMr4mJ0PF4lAbrCJPtzX5lMv3Ix0bAkJ4ToTgrvqFWtrHthHONtnKj/1nSgEQcypg1HkaWKyaoNrtBfImdseLzzWzmt4Sh/QP37rCTqZCwIngrXYs6mtHLxGIMOR9oTFvWu8KajAT0Q1o+bPw1BkdZkdv3cUe0d5cBQYIZ0Dc= new@New-PC"
 }
 
 module "dev_ssh_sg" {
@@ -58,7 +53,7 @@ module "ec2_sg" {
   vpc_id      = data.aws_vpc.default.id
 
   ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules       = ["http-80-tcp", "https-443-tcp", "all-icmp"]
+  ingress_rules       = ["http-80-tcp", "https-443-tcp", "https-5173-tcp", "all-icmp"]
   egress_rules        = ["all-all"]
 }
 
@@ -79,16 +74,19 @@ resource "aws_instance" "app_server" {
     Name = "PortfolioAppServerInstance"
   }
 
-  key_name = "portfolioapp3"
+  key_name = "portfolioapp4"
 
   user_data = <<-EOF
     #!/bin/bash
     set -ex
     sudo yum update -y
     sudo yum install docker -y
-    sudo yum install docker-compose-plugin -y
-    sudo service docker start
-    sudo usermod -a -G docker ec2-user
+    sudo mkdir -p /usr/local/lib/docker/cli-plugins/
+    sudo curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+    sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+    sudo systemctl start docker
+    sudo usermod -aG docker ec2-user
+    sudo chmod 666 /var/run/docker.sock
 
   EOF
 }

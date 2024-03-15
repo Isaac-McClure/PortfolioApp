@@ -1,20 +1,39 @@
 0. If they don't already exist, create aws resources with terraform. Confirm on aws it looks alright.
 
-1. Use docker compose with arguements to build for prod:
+1. Use docker compose with arguements to build for prod, run from PortfolioApp folder:
 
 $docker compose --env-file ./.env.production -f compose.yml -f compose.production.yml build --no-cache
 
 2. Push to the private docker hub repo that you are using (may require logging in first somehow)
 $docker compose push
 
-3. Connect to the EC2 instance with SSH
+3. Connect to the EC2 instance with SSH, in PortfolioApp/PortfolioAppPrivate/ssh run
+$ssh -i portfolioapp4 ec2-user@ec2-13-239-7-224.ap-southeast-2.compute.amazonaws.com
+navigate to ~ and make PortfolioAppPrivate/Certificates
+$sudo mkdir -p PortfolioAppPrivate/certificates
 
-4. Copy compose.yaml, compose.production.yaml, .env.production to the ec2 instance
+4. Copy compose.yaml, compose.production.yaml, .env.production, and mongo init script to the ec2 instance
+exit ssh and run:
+$scp -i portfolioapp4 ..\..\compose.yml ..\..\compose.production.yml ../../.env.production ../../mongo-init.js ec2-user@ec2-13-239-7-224.ap-southeast-2.compute.amazonaws.com:~
+log back onto box with SSH as in step 3, and copy files from ~ to /app with
 
-5. Pull the docker images with 
+5. Copy certificates to the ec2 instance
+scp -i .\PortfolioAppPrivate\ssh\portfolioapp4 -r .\PortfolioAppPrivate\certificates\  ec2-user@ec2-13-239-7-224.ap-southeast-2.compute.amazonaws.com:~/PortfolioAppPrivate/certificates
+
+6. Pull the docker images with 
 $docker login or $docker login isaacmcclure/private
-$docker compose pull 
+$docker compose --env-file ./.env.production -f compose.yml -f compose.production.yml pull 
 
-6 Start all containers with 
-$docker compose --env-file ./.env.production -f compose.yml -f compose.production.yml build
+7 Start all containers with 
+$docker compose --env-file ./.env.production -f compose.yml -f compose.production.yml up
 
+
+Other notes:
+To kill app including volumes:
+$docker compose --env-file ./.env.production -f compose.yml -f compose.production.yml down -v
+
+use docker logs to view logs, for example:
+$docker logs db
+
+use docker exec to run bash in a container:
+$docker exec -it db /bin/bash
