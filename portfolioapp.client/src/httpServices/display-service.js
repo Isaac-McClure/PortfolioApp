@@ -1,7 +1,6 @@
 export class DisplayService {
     constructor() {
-        // todo: add url to env variables
-        this.baseUrl = 'https://localhost:5001/Display'
+        this.baseUrl = import.meta.env.VITE_API_URL + '/Display'
     }
 
     async getByIdAsync(id) {

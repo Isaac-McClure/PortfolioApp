@@ -1,4 +1,3 @@
-# Comments are provided throughout this file to help you get started.
 # If you need more help, visit the Docker compose reference guide at
 # https://docs.docker.com/compose/compose-file/
 
@@ -8,12 +7,16 @@ services:
     container_name: client
     build:
       context: ./portfolioapp.client
+      args: 
+        CLIENT_RUN_COMMAND: ${CLIENT_RUN_COMMAND}
+    image: ${DOCKER_REPOSITORY}:client
     depends_on:
       - portfolioapp-database
     environment:
       NODE_ENV: ${ENVIRONMENT}
+      CLIENT_RUN_COMMAND: ${CLIENT_RUN_COMMAND}
     ports:
-      - 5173:5173
+      - 443:443
     develop:
       watch:
         - path: ./portfolioapp.client/package.json
@@ -21,6 +24,8 @@ services:
         - path: ./portfolioapp.client/src
           target: /app/src
           action: sync
+    volumes:
+      -  ./PortfolioAppPrivate/certificates/client:/etc/ssl/certs:ro
 
   portfolioapp-server:
     container_name: server
@@ -28,6 +33,7 @@ services:
       context: ./PortfolioApp.server
       args:
         API_PORT: ${API_PORT}
+    image: ${DOCKER_REPOSITORY}:server
     depends_on:
       - portfolioapp-database
     environment:
@@ -36,8 +42,9 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERT_PASSWORD}
-      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+      CORS_HOST: ${CORS_HOST}
+      ASPNETCORE_Kestrel__Certificates__Default__Password: ${SERVER_CERT_PASSWORD}
+      ASPNETCORE_Kestrel__Certificates__Default__Path: ${SERVER_CERT_PATH}
     ports:
       - ${API_PORT}:${API_PORT}
     develop:
@@ -45,10 +52,13 @@ services:
         - path: ./PortfolioApp.Server
           action: rebuild
     volumes:
-      - ~/.aspnet/https:/https:ro
+      -  ./PortfolioAppPrivate/certificates/server:/https:ro
 
   portfolioapp-database:
-    image: mongo:latest
+    container_name: db
+    build:
+      context: ./portfolioapp.db
+    image: ${DOCKER_REPOSITORY}:db
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USER}
@@ -58,7 +68,7 @@ services:
       - database:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     ports:
-      - 27017:27017
+      - :27017
 
 volumes:
   database:

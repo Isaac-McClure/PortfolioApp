@@ -25,7 +25,7 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", policy => {
-    policy.WithOrigins("https://localhost:5173").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+    policy.WithOrigins("https://" + Environment.GetEnvironmentVariable("CORS_HOST")).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
     }));
 
 // Add auth
@@ -35,6 +35,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
         options.SlidingExpiration = true;
         options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.SameSite = SameSiteMode.None;
     });
 
 var app = builder.Build();
@@ -56,10 +58,6 @@ app.UseHsts();
 app.UseCors("ApiCorsPolicy"); // UseCors must be called before UseAuthorization
 app.UseAuthentication();
 app.UseAuthorization();
-//  app.UseCookiePolicy(new CookiePolicyOptions
-//  {
-//      MinimumSameSitePolicy = SameSiteMode.Strict,
-//  });
 
 app.MapControllers();
 

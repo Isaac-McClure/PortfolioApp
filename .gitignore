@@ -369,3 +369,12 @@ mongo-init.js
 db_password.txt
 
 .env
+.env.*
+
+.terraform
+.terraform.lock.hcl
+*.tfvars
+
+PortfolioAppPrivate/
+/terraform.tfstate
+/terraform.tfstate.backup
