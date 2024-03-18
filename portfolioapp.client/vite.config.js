@@ -12,7 +12,7 @@ export default defineConfig({
         }
     },
     preview: {
-        port: 5173,
+        port: 443,
         strictPort: true,
     },
     server: {
@@ -20,9 +20,9 @@ export default defineConfig({
             key: '/etc/ssl/certs/privateKey.pem',
             cert: '/etc/ssl/certs/cert.pem'
         },
-        port: 5173,
+        port: 443,
         strictPort: true,
         host: true,
-        origin: "https://portfolioapp-client:5173",// This code runs in the container, not the browser, so this works
+        origin: process.env.VITE_ORIGIN,
     }
 })

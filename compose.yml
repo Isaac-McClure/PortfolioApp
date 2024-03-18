@@ -16,7 +16,7 @@ services:
       NODE_ENV: ${ENVIRONMENT}
       CLIENT_RUN_COMMAND: ${CLIENT_RUN_COMMAND}
     ports:
-      - 5173:5173
+      - 443:443
     develop:
       watch:
         - path: ./portfolioapp.client/package.json
@@ -68,7 +68,7 @@ services:
       - database:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     ports:
-      - 27017:27017
+      - :27017
 
 volumes:
   database:

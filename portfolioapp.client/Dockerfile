@@ -11,7 +11,7 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 5173
+EXPOSE 443
 
 ARG CLIENT_RUN_COMMAND
 

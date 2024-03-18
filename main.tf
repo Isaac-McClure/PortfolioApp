@@ -52,8 +52,8 @@ module "ec2_sg" {
   description = "Security group for ec2_sg"
   vpc_id      = data.aws_vpc.default.id
 
-  ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules       = ["http-80-tcp", "https-443-tcp", "https-5173-tcp", "all-icmp"]
+  ingress_cidr_blocks = ["173.245.48.0/20","103.21.244.0/22","103.22.200.0/22","103.31.4.0/22","141.101.64.0/18","108.162.192.0/18","190.93.240.0/20","188.114.96.0/20","197.234.240.0/22","198.41.128.0/17","162.158.0.0/15","104.16.0.0/13","104.24.0.0/14","172.64.0.0/13","131.0.72.0/22"]
+  ingress_rules       = ["http-80-tcp", "https-443-tcp", "https-8443-tcp", "all-icmp"]
   egress_rules        = ["all-all"]
 }
 

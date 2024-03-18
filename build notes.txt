@@ -18,17 +18,18 @@ $scp -i portfolioapp4 ..\..\compose.yml ..\..\compose.production.yml ../../.env.
 log back onto box with SSH as in step 3, and copy files from ~ to /app with
 
 5. Copy certificates to the ec2 instance
-scp -i .\PortfolioAppPrivate\ssh\portfolioapp4 -r .\PortfolioAppPrivate\certificates\  ec2-user@ec2-13-239-7-224.ap-southeast-2.compute.amazonaws.com:~/PortfolioAppPrivate/certificates
+scp -i .\PortfolioAppPrivate\ssh\portfolioapp4 -r .\PortfolioAppPrivate\certificates\  ec2-user@ec2-13-239-7-224.ap-southeast-2.compute.amazonaws.com:~/PortfolioAppPrivate
 
 6. Pull the docker images with 
 $docker login or $docker login isaacmcclure/private
 $docker compose --env-file ./.env.production -f compose.yml -f compose.production.yml pull 
 
 7 Start all containers with 
-$docker compose --env-file ./.env.production -f compose.yml -f compose.production.yml up
+$docker compose --env-file ./.env.production -f compose.yml -f compose.production.yml up -d
 
 
 Other notes:
+
 To kill app including volumes:
 $docker compose --env-file ./.env.production -f compose.yml -f compose.production.yml down -v
 
@@ -37,3 +38,12 @@ $docker logs db
 
 use docker exec to run bash in a container:
 $docker exec -it db /bin/bash
+
+To convert pem to pfx:
+openssl pkcs12 -inkey privateKey.pem -in cert.pem -export -out portfolioappcertificate.pfx
+
+To run shell in client container:
+docker exec -it client sh
+
+to run bash in other containers:
+docker exec -it <name> /bin/bash
