@@ -44,7 +44,7 @@ export default function DisplayDetailComponent() {
                         {display.gitHubLink ? <div>To see the source code and more details, visit {display.gitHubLink}</div> : <div></div>}
                     </div>
                     <div className='mt-10'>
-                        {display.gitHubLink ? <div>To see the live app, visit {display.productionLink}</div> : <div></div>}
+                        {display.productionLink ? <div>To see the live app, visit {display.productionLink}</div> : <div></div>}
                     </div>
                 </div>
             </div>

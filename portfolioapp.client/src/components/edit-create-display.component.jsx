@@ -33,6 +33,7 @@ export default function EditCreateDisplayComponent() {
             detailDescription: '',
             gitHubLink: '',
             imageUrl: '',
+            tileImageUrl: '',
             productionLink: '',
 
         }
@@ -170,6 +171,14 @@ export default function EditCreateDisplayComponent() {
                 variant="outlined"
                 value={display.imageUrl}
                 onChange={event => { setDisplay({ ...display, imageUrl: event.target.value }) }}
+            />
+
+            <TextField id="tile image public id"
+                sx={textfieldStyle}
+                label="tileImageUrl"
+                variant="outlined"
+                value={display.tileImageUrl}
+                onChange={event => { setDisplay({ ...display, tileImageUrl: event.target.value }) }}
             />
 
             <TextField id="Prodution Link"
