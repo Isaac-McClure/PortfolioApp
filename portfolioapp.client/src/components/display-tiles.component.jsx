@@ -31,7 +31,7 @@ export default function DisplayTilesComponent() {
             <Grid container spacing={2} className="grid">
                 {displays.map(display =>
                     <Grid xs={12} s={6} md={4} l={3} key={display.name} display="flex" justifyContent="center" alignItems="center">
-                        <Card className='display-card' sx={{ width: '100%', height: 300 }}>
+                        <Card className='display-card' sx={{ width: '100%' }}>
                             <CardActionArea component={Link} to={'/appdisplay/' + display.id}>
                                 <CardMedia
                                     component="img"
@@ -39,11 +39,11 @@ export default function DisplayTilesComponent() {
                                     image={"https://res.cloudinary.com/" + appContext?.cloudinary.cloudinaryConfig?.cloud?.cloudName +"/" + display.tileImageUrl}
                                     alt="project image"
                                 />
-                                <CardContent>
+                                <CardContent height='100px'>
                                     <Typography variant="h5" component="div">
                                         {display.name}
                                     </Typography>
-                                    <Typography variant="body2">
+                                    <Typography variant="body2" color="text.secondary">
                                         {display.description}
                                     </Typography>
                                 </CardContent>

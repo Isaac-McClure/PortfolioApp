@@ -9,6 +9,7 @@ import AdminComponent from './components/admin.component';
 import PrivateRouteComponent from './components/private-route.component';
 import EditCreateDisplayComponent from './components/edit-create-display.component';
 import ErrorComponent from './components/error.component';
+import AppContextProvider from './components/app-context-provider';
 
 const router = createBrowserRouter([
     {
@@ -49,7 +50,11 @@ const router = createBrowserRouter([
 function App() {
 
     return (
-        <RouterProvider router={router} />
+        <div>
+            <AppContextProvider>
+                <RouterProvider router={router} />
+            </AppContextProvider>
+        </div>
     );
 }
 

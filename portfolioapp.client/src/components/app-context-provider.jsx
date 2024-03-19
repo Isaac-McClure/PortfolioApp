@@ -13,6 +13,7 @@ export default function AppContextProvider({ children }) {
     const loginService = new LoginService();
 
     const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem(LOGGED_IN_COOKIE) === 'true');    
+    const [isFunMode, setIsFunMode] = useState(false);
 
     // Create a Cloudinary instance and set your cloud name.
     const cld = new Cloudinary({
@@ -26,7 +27,9 @@ export default function AppContextProvider({ children }) {
         setIsLoggedIn: setIsLoggedIn,
         loginService: loginService,
         displayService: displayService,
-        cloudinary: cld
+        cloudinary: cld,
+        isFunMode: isFunMode,
+        setIsFunMode: setIsFunMode
     }
 
     return (

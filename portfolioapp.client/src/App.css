@@ -65,3 +65,92 @@ th, td {
 .mt-10 {
     margin-top: 10px;
 }
+
+
+/* Animation - Adapted from code by Yusuke Nakaya - see https://codepen.io/YusukeNakaya/pen/XyOaBj */
+.star-container {
+    position: fixed;
+    width: 130%;
+    height: 130%;
+    overflow:hidden;
+    transform: rotateZ(45deg) translateX(-20%) translateY(-10px);
+    z-index: -1;
+}
+
+.shooting_star {
+    z-index:inherit;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 2px;
+    background: linear-gradient(-45deg, rgba(0, 210, 40, 1), rgba(0, 255, 0, 0));
+    border-radius: 999px;
+    filter: drop-shadow(0 0 6px rgba(105, 155, 255, 0.5));
+    animation: tail 5000ms ease-in-out infinite, shooting 5000ms ease-in-out infinite;
+}
+
+
+.shooting_star::before {
+    content: '';
+    position: absolute;
+    top: calc(50% - 1px);
+    right: 0;
+    height: 2px;
+    background: linear-gradient(-45deg, rgba(0, 255, 0, 0), rgba(0, 210, 40, 1), rgba(0, 255, 0, 0));
+    transform: translateX(50%) rotateZ(45deg);
+    border-radius: 100%;
+    animation: shining 5000ms ease-in-out infinite;
+    animation-delay:inherit;
+}
+
+.shooting_star::after {
+    content: '';
+    position: absolute;
+    top: calc(50% - 1px);
+    right: 0;
+    height: 2px;
+    background: linear-gradient(-45deg, rgba(0, 255, 0, 0), rgba(0, 210, 40, 1), rgba(0, 255, 0, 0));
+    transform: translateX(50%) rotateZ(45deg);
+    border-radius: 100%;
+    animation: shining 5000ms ease-in-out infinite;
+    transform: translateX(50%) rotateZ(-45deg);
+    animation-delay: inherit;
+}
+
+@keyframes tail {
+    0% {
+        width: 0;
+    }
+
+    30% {
+        width: 100px;
+    }
+
+    100% {
+        width: 0;
+    }
+}
+
+@keyframes shining {
+    0% {
+        width: 0;
+    }
+
+    50% {
+        width: 30px;
+    }
+
+    100% {
+        width: 0;
+    }
+}
+
+@keyframes shooting {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(300px);
+    }
+}

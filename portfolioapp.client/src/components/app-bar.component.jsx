@@ -6,10 +6,12 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Icon from '@mui/material/Icon';
+import Switch from '@mui/material/Switch';
 import { Link } from 'react-router-dom';
 import { AppContext } from "./app-context-provider";
 import { LOGGED_IN_COOKIE } from '../constants';
 import { useNavigate } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip';
 
 
 export default function AppBarComponent() {
@@ -42,6 +44,11 @@ export default function AppBarComponent() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Isaac&apos;s Apps
                     </Typography>
+                    <div>
+                        <Tooltip title="Fun mode">
+                            <Switch color="secondary" checked={appContext.isFunMode} onChange={(event) => { appContext.setIsFunMode(event.target.checked) }}></Switch>
+                        </Tooltip>
+                    </div>
                     {appContext.isLoggedIn ? <Button color="inherit" component={Link} to="admin" >Admin</Button> : ''}
                     {appContext.isLoggedIn ? <Button color="inherit" onClick={() => logout()}>Log out</Button> : '' }
                 </Toolbar>
