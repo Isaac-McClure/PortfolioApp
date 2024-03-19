@@ -12,8 +12,6 @@ export default function LayoutComponent() {
                 <AppBarComponent></AppBarComponent>
                 <Outlet />
             </AppContextProvider>
-            <></>
-            <hr></hr>
         </div>;
 
     return (
