@@ -17,7 +17,7 @@ export default function BackgroundAnimationComponent() {
 
     const stars = [];
     for (let i = 0; i < 20; i++) {
-        stars.push(<div className="shooting_star" style={{ top: getRandomYPosition(), left: getRandomXPosition(), animationDelay: getRandomAnimationDelay() }}></div>);
+        stars.push(<div id={"star" + i} className="shooting_star" style={{ top: getRandomYPosition(), left: getRandomXPosition(), animationDelay: getRandomAnimationDelay() }}></div>);
     }
 
     const content =

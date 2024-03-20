@@ -45,6 +45,8 @@ th, td {
     .detail-box {
         display: flex;
         flex-direction: column-reverse;
+        align-content: center;
+        justify-content: center;
         margin-bottom: 10px;
     }
 }
@@ -53,12 +55,9 @@ th, td {
     margin: 0px 10px 10px 10px;
     outline: 1px solid black;
     display: flex;
-    flex-wrap:wrap;
-    align-content: center;
-    justify-content: center;
-    min-width: 400px;
-    min-height: 300px;
-
+    flex-wrap: wrap;
+    max-width: 90vw;
+    align-self: center;
 }
 
 /* utility classes */
