@@ -5,9 +5,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import CardActions from '@mui/material/CardActions';
 import { CardActionArea } from '@mui/material';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
 import { AppContext } from './app-context-provider';
 import { Link } from 'react-router-dom';
@@ -26,8 +24,8 @@ export default function DisplayTilesComponent() {
         populateDisplays();
     }, [populateDisplays]);
 
-    const contents = displays ?    
-        <Box sx={{ flexGrow: 1 }}>
+    const contents = displays ?
+        <Box sx={{ justifyContent: 'center'}}>
             <Grid container spacing={2} className="grid">
                 {displays.map(display =>
                     <Grid xs={12} s={6} md={4} l={3} key={display.name} display="flex" justifyContent="center" alignItems="center">

@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "./app-context-provider";
 import CircularProgress from '@mui/material/CircularProgress';
 import { AdvancedImage } from '@cloudinary/react';
+import { limitFit } from "@cloudinary/url-gen/actions/resize";
+import Link from '@mui/material/Link';
 
 export default function DisplayDetailComponent() {
     const appContext = useContext(AppContext);
@@ -24,7 +26,11 @@ export default function DisplayDetailComponent() {
 
     const getImage = useCallback((display) => {
         if (!appContext.cloudinary || !display) { return }
-        const displayImage = appContext.cloudinary.image(display.imageUrl);
+
+        // Scale images down for smaller screens:
+        let viewWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+        let imageMaxDimension = (viewWidth * 0.9).toFixed(0);
+        const displayImage = appContext.cloudinary.image(display.imageUrl).resize(limitFit().width(imageMaxDimension).height(imageMaxDimension));
 
         setImage(displayImage);
     }, [appContext.cloudinary]);
@@ -41,10 +47,10 @@ export default function DisplayDetailComponent() {
                         {display.detailDescription}
                     </div>
                     <div className='mt-10'>
-                        {display.gitHubLink ? <div>To see the source code and more details, visit {display.gitHubLink}</div> : <div></div>}
+                        {display.gitHubLink ? <div>To see the source code and more details, visit <Link href={display.gitHubLink}>{display.gitHubLink}</Link></div> : <div></div>}
                     </div>
                     <div className='mt-10'>
-                        {display.productionLink ? <div>To see the live app, visit {display.productionLink}</div> : <div></div>}
+                        {display.productionLink ? <div>To see the live app, visit <Link href={display.productionLink}>{display.productionLink}</Link></div> : <div></div>}
                     </div>
                 </div>
             </div>
